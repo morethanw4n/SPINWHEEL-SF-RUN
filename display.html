@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUCKY DRAW DISPLAY - SMARTFREN FUN RUN PALEMBANG (6x3.5m LED)</title>
+  <meta name="description" content="Tampilan panggung videotron/LED 6x3.5m Lucky Draw Smartfren Fun Run Palembang.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=Teko:wght@600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Canvas Confetti for Stage Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="stage-body">
+
+  <!-- Stage Viewport (12:7 ratio ≈ 6x3.5m LED) -->
+  <div id="stage-viewport" class="stage-viewport">
+    <div id="stage-screen" class="stage-screen">
+
+      <!-- Dual Crossfade Background Layers -->
+      <div id="bg-layer-a" class="stage-bg-layer active"></div>
+      <div id="bg-layer-b" class="stage-bg-layer"></div>
+      <div id="bg-fade-overlay" class="stage-fade-overlay"></div>
+
+      <!-- Live Lucky Draw Number Box (Calibrated over the slide's white container) -->
+      <div id="lucky-number-box" class="lucky-number-box">
+
+        <!-- Subtle Specular Reflection -->
+        <div class="box-specular-highlight"></div>
+
+        <!-- Rolling Digits Container -->
+        <div id="digits-container" class="digits-container">
+          <div class="digit-column" data-index="0">
+            <div class="digit-strip"><span>0</span></div>
+          </div>
+          <div class="digit-column" data-index="1">
+            <div class="digit-strip"><span>0</span></div>
+          </div>
+          <div class="digit-column" data-index="2">
+            <div class="digit-strip"><span>0</span></div>
+          </div>
+          <div class="digit-column" data-index="3">
+            <div class="digit-strip"><span>0</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Confetti Canvas Layer -->
+      <canvas id="stage-confetti-canvas"></canvas>
+
+      <!-- Stage Winner Celebration Overlay (Appears on stage when winner is picked) -->
+      <div id="stage-winner-banner" class="stage-winner-banner hidden">
+        <div class="banner-inner">
+          <span class="banner-stars">SELAMAT KEPADA NOMOR</span>
+          <span class="banner-prize" id="stage-banner-prize">SEPEDA MOTOR LISTRIK</span>
+          <span class="banner-num" id="stage-banner-num">#0482</span>
+        </div>
+      </div>
+
+      <!-- Stage Ambient Watermark Badge -->
+      <!-- <div class="stage-ambient-badge">
+        <span class="live-pulse"></span>
+        <span id="stage-status-text">SMARTFREN FUN RUN PALEMBANG &bull; 1000 PESERTA</span>
+      </div> -->
+
+      <!-- Discreet Stage Bottom Controller (Auto-fades out on inactivity) -->
+      <div class="stage-discreet-bar" id="stage-discreet-bar">
+        <button id="btn-stage-fullscreen" class="btn-stage-subtle" title="Layar Penuh (F11 / F / Double Click)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+            </path>
+          </svg>
+          <span id="label-stage-fs">FULL SCREEN</span>
+        </button>
+
+        <a href="operator.html" target="_blank" class="btn-stage-subtle"
+          title="Buka Panel Kontrol Operator di jendela baru">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <span>PANEL OPERATOR</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Stage Display Engine -->
+  <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUCKY DRAW SMARTFREN FUN RUN PALEMBANG - Launcher Hub</title>
+  <meta name="description"
+    content="Pusat peluncuran aplikasi Lucky Draw Smartfren Fun Run Palembang. Pilih Panel Operator atau Layar Videotron LED.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    :root {
+      --pink: #fb0e78;
+      --blue: #2563eb;
+      --bg: #07070b;
+      --surface: rgba(255, 255, 255, .055);
+      --border: rgba(255, 255, 255, .12);
+      --muted: #a7a7b4
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      min-height: 100%;
+      scroll-behavior: smooth
+    }
+
+    body.launcher-body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 24px;
+      color: #fff;
+      background: radial-gradient(circle at 12% 15%, rgba(251, 14, 120, .18), transparent 28%), radial-gradient(circle at 88% 85%, rgba(37, 99, 235, .14), transparent 30%), linear-gradient(135deg, #050507, #0a0a10 50%, #050507);
+      font-family: "Trueno";
+      overflow-x: hidden
+    }
+
+    body.launcher-body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .8), transparent)
+    }
+
+    .launcher-container {
+      width: min(1180px, 100%);
+      margin: 0 auto
+    }
+
+    .launcher-header {
+      text-align: center;
+      margin: 0 auto 42px
+    }
+
+    .launcher-brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 22px;
+      padding: 8px 15px;
+      border: 1px solid rgba(251, 14, 120, .35);
+      border-radius: 999px;
+      background: rgba(251, 14, 120, .08);
+      box-shadow: 0 0 30px rgba(251, 14, 120, .08);
+      font-weight: 800
+    }
+
+    .brand-smartfren {
+      color: var(--pink);
+      font-size: 17px
+    }
+
+    .brand-5g {
+      color: #fff;
+      font-size: 12px;
+      padding: 3px 6px;
+      border-radius: 5px;
+      background: var(--pink)
+    }
+
+    .launcher-main-title {
+      margin: 0;
+      font-family: "Trueno", "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(38px, 6vw, 74px);
+      line-height: .98;
+      font-weight: 800;
+      letter-spacing: -.055em;
+      text-wrap: balance;
+      background: linear-gradient(90deg, #fff 15%, #ff82b8 50%, #fff 85%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .launcher-main-subtitle {
+      margin: 17px 0 0;
+      color: #d5d5dc;
+      font-size: clamp(12px, 1.5vw, 15px);
+      font-weight: 700;
+      letter-spacing: .13em
+    }
+
+    .launcher-divider {
+      width: 90px;
+      height: 4px;
+      margin: 25px auto 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, var(--pink), transparent);
+      box-shadow: 0 0 25px rgba(251, 14, 120, .5)
+    }
+
+    .launcher-guide {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .launcher-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px
+    }
+
+    .launcher-card {
+      position: relative;
+      display: flex;
+      min-height: 390px;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 30px;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)), rgba(10, 10, 15, .82);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, .45);
+      isolation: isolate;
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease
+    }
+
+    .launcher-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(251, 14, 120, .45);
+      box-shadow: 0 32px 90px rgba(0, 0, 0, .52), 0 0 45px rgba(251, 14, 120, .08)
+    }
+
+    .launcher-card:focus-visible {
+      outline: 3px solid rgba(251, 14, 120, .5);
+      outline-offset: 4px
+    }
+
+    .card-glow {
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      top: -100px;
+      right: -80px;
+      z-index: -1;
+      border-radius: 50%;
+      background: rgba(251, 14, 120, .24);
+      filter: blur(55px);
+      opacity: .75;
+      transition: opacity .3s ease, transform .3s ease
+    }
+
+    .launcher-card:hover .card-glow {
+      opacity: 1;
+      transform: scale(1.15)
+    }
+
+    .display-card .card-glow {
+      background: rgba(37, 99, 235, .25)
+    }
+
+    .card-badge {
+      align-self: flex-start;
+      padding: 7px 11px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .055);
+      color: #dcdce4;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: .08em
+    }
+
+    .op-badge {
+      color: #ff76ae;
+      border-color: rgba(251, 14, 120, .25);
+      background: rgba(251, 14, 120, .09)
+    }
+
+    .stage-badge {
+      color: #8db0ff;
+      border-color: rgba(37, 99, 235, .3);
+      background: rgba(37, 99, 235, .09)
+    }
+
+    .card-icon-box {
+      display: grid;
+      width: 76px;
+      height: 76px;
+      place-items: center;
+      margin: 34px 0 24px;
+      border: 1px solid rgba(251, 14, 120, .28);
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(251, 14, 120, .17), rgba(251, 14, 120, .035));
+      color: var(--pink);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08)
+    }
+
+    .display-card .card-icon-box {
+      border-color: rgba(70, 120, 255, .3);
+      background: linear-gradient(145deg, rgba(37, 99, 235, .18), rgba(37, 99, 235, .035));
+      color: #73a0ff
+    }
+
+    .card-heading {
+      margin: 0 0 12px;
+      font-family: "Trueno", "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(24px, 3vw, 32px);
+      line-height: 1.1;
+      letter-spacing: -.035em
+    }
+
+    .card-description {
+      margin: 0;
+      max-width: 650px;
+      color: #a9a9b5;
+      font-size: 14px;
+      line-height: 1.75
+    }
+
+    .card-action-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 30px
+    }
+
+    .btn-launcher {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      transition: transform .25s ease, box-shadow .25s ease
+    }
+
+    .launcher-card:hover .btn-launcher {
+      transform: translateX(3px)
+    }
+
+    .btn-launcher.primary {
+      color: #fff;
+      background: linear-gradient(135deg, #fb0e78, #e7086b);
+      box-shadow: 0 10px 30px rgba(251, 14, 120, .22)
+    }
+
+    .btn-launcher.secondary {
+      color: #fff;
+      background: linear-gradient(135deg, #2458e8, #1944bb);
+      box-shadow: 0 10px 30px rgba(37, 99, 235, .22)
+    }
+
+    .hotkey-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .035);
+      color: #858593;
+      font-family: monospace;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .launcher-footer-actions {
+      margin-top: 24px;
+      text-align: center
+    }
+
+    .btn-dual-launch {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      max-width: 100%;
+      min-height: 54px;
+      padding: 0 22px;
+      border: 1px solid rgba(251, 14, 120, .28);
+      border-radius: 14px;
+      color: #fff;
+      background: rgba(251, 14, 120, .08);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease
+    }
+
+    .btn-dual-launch:hover {
+      transform: translateY(-2px);
+      border-color: rgba(251, 14, 120, .55);
+      background: rgba(251, 14, 120, .14);
+      box-shadow: 0 12px 35px rgba(251, 14, 120, .12)
+    }
+
+    .btn-dual-launch:focus-visible {
+      outline: 3px solid rgba(251, 14, 120, .45);
+      outline-offset: 3px
+    }
+
+    .launcher-shortcut-hint {
+      margin: 16px auto 0;
+      max-width: 850px;
+      color: #777783;
+      font-size: 12px;
+      line-height: 1.65
+    }
+
+    .launcher-shortcut-hint code {
+      padding: 2px 6px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 5px;
+      color: #d7d7df;
+      background: rgba(255, 255, 255, .05);
+      font-family: monospace
+    }
+
+    @media(max-width:800px) {
+      body.launcher-body {
+        padding: 28px 16px
+      }
+
+      .launcher-header {
+        margin-bottom: 30px
+      }
+
+      .launcher-cards-grid {
+        grid-template-columns: 1fr
+      }
+
+      .launcher-card {
+        min-height: 360px;
+        padding: 25px
+      }
+    }
+
+    @media(max-width:520px) {
+      .launcher-main-title {
+        font-size: 38px
+      }
+
+      .launcher-main-subtitle {
+        font-size: 10px;
+        letter-spacing: .08em
+      }
+
+      .launcher-guide {
+        font-size: 12px
+      }
+
+      .launcher-card {
+        min-height: auto;
+        border-radius: 20px
+      }
+
+      .card-icon-box {
+        width: 64px;
+        height: 64px;
+        margin-top: 27px
+      }
+
+      .card-heading {
+        font-size: 25px
+      }
+
+      .card-description {
+        font-size: 13px
+      }
+
+      .card-action-bar {
+        align-items: stretch;
+        flex-direction: column
+      }
+
+      .btn-launcher,
+      .hotkey-pill {
+        width: 100%
+      }
+
+      .btn-dual-launch {
+        width: 100%;
+        font-size: 12px
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      html {
+        scroll-behavior: auto
+      }
+
+      *,
+      *:before,
+      *:after {
+        transition: none !important
+      }
+    }
+  </style>
+
+</head>
+
+<body class="launcher-body">
+
+  <div class="launcher-container">
+
+    <!-- Top Branding Header -->
+    <header class="launcher-header">
+      <div class="launcher-brand-tag">
+        <span class="brand-smartfren">smartfren</span>
+        <span class="brand-5g">5G</span>
+      </div>
+
+      <h1 class="launcher-main-title">LUCKY DRAW PORTAL</h1>
+      <p class="launcher-main-subtitle">SMARTFREN FUN RUN PALEMBANG &bull; TOTAL 1000 PESERTA</p>
+      <div class="launcher-divider"></div>
+      <p class="launcher-guide">Silakan pilih mode tampilan di bawah ini untuk memulai undian doorprize:</p>
+    </header>
+
+    <!-- 2 Main Cards Grid -->
+    <div class="launcher-cards-grid">
+
+      <!-- CARD 1: OPERATOR DASHBOARD -->
+      <a href="operator.html" class="launcher-card operator-card">
+        <div class="card-glow"></div>
+        <div class="card-badge op-badge">MONITOR LAPTOP OPERATOR</div>
+
+        <div class="card-icon-box">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        </div>
+
+        <h2 class="card-heading">Panel Kontrol Operator</h2>
+        <p class="card-description">
+          Pusat kendali di laptop operator. Dilengkapi upload background materi, tombol nama doorprize otomatis, live
+          monitor panggung, tombol SPIN, popup konfirmasi HAPUS/KEEP, kelola nomor 1-1000, kalibrasi, dan rekap Excel.
+        </p>
+
+        <div class="card-action-bar">
+          <span class="btn-launcher primary">
+            Buka Panel Operator &rarr;
+          </span>
+          <span class="hotkey-pill">[ Tekan 1 ]</span>
+        </div>
+      </a>
+
+      <!-- CARD 2: STAGE DISPLAY (6x3.5m LED) -->
+      <a href="display.html" target="_blank" class="launcher-card display-card">
+        <div class="card-glow"></div>
+        <div class="card-badge stage-badge">VIDEOTRON LED PANGGUNG 6x3.5m</div>
+
+        <div class="card-icon-box">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+        </div>
+
+        <h2 class="card-heading">Layar Lucky Draw (Panggung)</h2>
+        <p class="card-description">
+          Tampilan bersih 100% untuk audiens panggung. Menampilkan materi hadiah berasio 12:7 (6x3.5m), animasi putaran
+          angka slot reel dramatis, efek suara realistis, ledakan konfeti panggung, dan banner pengumuman nomor.
+        </p>
+
+        <div class="card-action-bar">
+          <span class="btn-launcher secondary">
+            Buka Layar Panggung &rarr;
+          </span>
+          <span class="hotkey-pill">[ Tekan 2 ]</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Quick Dual Launch Row -->
+    <div class="launcher-footer-actions">
+      <button id="btn-launch-both" class="btn-dual-launch">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M8 21h8"></path>
+          <path d="M12 17v4"></path>
+        </svg>
+        <span>Buka Keduanya Sekaligus (Operator di sini & Layar Panggung di Tab Baru)</span>
+      </button>
+
+      <p class="launcher-shortcut-hint">
+        💡 Tip: Hubungkan laptop ke videotron dengan mode <strong>Extend Displays</strong>, lalu buka
+        <code>operator.html</code> di laptop dan <code>display.html</code> di videotron.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '1') {
+        window.location.href = 'operator.html';
+      } else if (e.key === '2') {
+        window.open('display.html', '_blank');
+      }
+    });
+
+    // Dual Launch Handler
+    document.getElementById('btn-launch-both').addEventListener('click', () => {
+      window.open('display.html', 'SF_Stage_Display', 'width=1280,height=750');
+      window.location.href = 'operator.html';
+    });
+  </script>
+</body>
+
+</html>

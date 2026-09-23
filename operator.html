@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPERATOR DASHBOARD - Lucky Draw Smartfren Fun Run Palembang</title>
+  <meta name="description" content="Panel kendali operator laptop untuk lucky draw doorprize Smartfren Fun Run Palembang.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- SheetJS for Excel (.xlsx, .xls, .csv) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="operator-body">
+
+  <!-- Operator Dashboard Container -->
+  <div class="operator-app-container">
+    
+    <!-- Top Header Bar -->
+    <header class="operator-header">
+      
+      <!-- Brand & Event Identity -->
+      <div class="op-brand">
+        <div class="op-brand-tag">
+          <span class="brand-smartfren">smartfren</span>
+          <span class="brand-5g">5G</span>
+        </div>
+        <div class="op-event-info">
+          <h1 class="op-title">PANEL OPERATOR LUCKY DRAW</h1>
+          <p class="op-subtitle">SMARTFREN FUN RUN PALEMBANG &bull; 1000 PESERTA</p>
+        </div>
+      </div>
+
+      <!-- Sync Status & Participant Counter -->
+      <div class="op-header-stats">
+        
+        <!-- Display Sync Indicator -->
+        <div class="op-sync-badge" id="display-sync-badge">
+          <span class="sync-dot waiting" id="sync-dot"></span>
+          <span id="sync-status-text">Mencari Layar Videotron...</span>
+        </div>
+
+        <!-- Remaining Participant Counter -->
+        <div class="op-pool-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span id="op-counter-text">Sisa: 1000 / 1000 Peserta</span>
+        </div>
+
+      </div>
+
+      <!-- Header Actions (Launch Display, Sound, Data, Fullscreen) -->
+      <div class="op-header-actions">
+        
+        <!-- BUTTON BUKA LAYAR VIDEOTRON (DISPLAY VIEW) -->
+        <button id="btn-open-display" class="btn-op-primary" title="Buka jendela layar panggung untuk dipindahkan ke Videotron / Monitor Eksternal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <span>BUKA LAYAR VIDEOTRON (LED)</span>
+        </button>
+
+        <!-- SOUND TOGGLE -->
+        <button id="btn-toggle-sound" class="btn-op-icon" title="Toggle Suara (Mute / Unmute)">
+          <svg id="icon-sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <svg id="icon-sound-off" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+
+      </div>
+
+    </header>
+
+    <!-- Main Workspace Layout -->
+    <main class="operator-workspace">
+      
+      <!-- Left Column: Primary Draw Control, Tabs & Spin Button -->
+      <section class="op-main-controls">
+        
+        <!-- SECTION 1: BUTTON NAMA-NAMA DOORPRIZE & BUTTON UPLOAD BG -->
+        <div class="op-card op-doorprize-card">
+          <div class="card-header-flex">
+            <div>
+              <h2 class="card-title">PILIH MATERI DOORPRIZE</h2>
+              <p class="card-desc">Klik tombol hadiah di bawah untuk mengganti background di layar panggung secara instan (transisi fade overlay):</p>
+            </div>
+            
+            <!-- BUTTON UPLOAD BG -->
+            <div class="op-doorprize-header-actions">
+              <label for="bg-upload-input" class="btn-op-upload" title="Unggah seluruh background doorprize sekaligus (.png, .jpg, .svg)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <span>UPLOAD BG</span>
+              </label>
+              <input type="file" id="bg-upload-input" multiple accept="image/*" hidden>
+
+              <!-- BUTTON HAPUS SEMUA DOORPRIZE (Custom) -->
+              <button id="btn-clear-all-doorprize" class="btn-op-clear-doorprize" title="Hapus semua background custom yang diupload (Background default tetap ada)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+                <span>HAPUS SEMUA</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- DYNAMIC TABS LIST (Auto-generated from filenames) -->
+          <div id="op-doorprize-tabs" class="op-doorprize-tabs-grid">
+            <!-- Rendered via operator.js -->
+          </div>
+        </div>
+
+        <!-- SECTION 2: LIVE STAGE MIRROR PREVIEW -->
+        <div class="op-card op-preview-card">
+          <div class="card-header-flex">
+            <div>
+              <h2 class="card-title">LIVE MONITOR PANGGUNG (6x3.5m)</h2>
+              <p class="card-desc">Tampilan langsung materi yang sedang tayang di layar videotron LED panggung:</p>
+            </div>
+            <div class="active-prize-pill">
+              <span class="pill-dot"></span>
+              <span id="op-active-prize-name">Sepeda Motor Listrik</span>
+            </div>
+          </div>
+
+          <!-- 6:3.5 Miniature Mirror -->
+          <div class="op-mirror-container">
+            <div class="op-mirror-screen" id="op-mirror-screen">
+              <div id="op-mirror-bg" class="op-mirror-bg"></div>
+              
+              <!-- Miniature Number Box Mirror -->
+              <div id="op-mirror-box" class="op-mirror-box">
+                <span id="op-mirror-number">0000</span>
+              </div>
+
+              <!-- Live Badge -->
+              <div class="op-mirror-badge">
+                <span class="live-blink"></span>
+                <span>TAYANG DI VIDEOTRON</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: BUTTON SPIN (General, clean, large, prominent) -->
+        <div class="op-card op-spin-control-card">
+          <div class="spin-control-layout">
+            
+            <div class="spin-info-col">
+              <span class="spin-info-label">AKSI PENGUNDIAN:</span>
+              <h3 class="spin-target-prize" id="spin-target-prize">Sepeda Motor Listrik</h3>
+              <p class="spin-instruction">Tekan tombol di sebelah kanan atau tekan <strong>[SPASI]</strong> di keyboard untuk memutar undian nomor pada videotron.</p>
+            </div>
+
+            <!-- THE BIG BUTTON SPIN -->
+            <button id="btn-op-spin" class="btn-op-spin" aria-label="Putar Undian">
+              <div class="btn-spin-glow"></div>
+              <div class="btn-spin-inner">
+                <svg class="spin-icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                <div class="spin-text-group">
+                  <span class="spin-title" id="btn-op-spin-label">PUTAR UNDIAN</span>
+                  <span class="spin-key">[ TEKAN SPASI ]</span>
+                </div>
+              </div>
+            </button>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Tools, Data Management, Calibration & Winner History -->
+      <aside class="op-side-panel">
+        
+        <!-- SIDE CARD 1: TOOLS & MANAGEMENT -->
+        <div class="op-card">
+          <h2 class="card-title">MANAJEMEN DATA & PENGATURAN</h2>
+          <div class="op-action-menu-list">
+            
+            <button id="btn-open-data-modal" class="btn-op-menu-item">
+              <div class="menu-icon">📋</div>
+              <div class="menu-info">
+                <strong>Kelola Data Nomor Peserta</strong>
+                <small>Reset 1 - 1000 / Format 4 Digit / Import Excel</small>
+              </div>
+            </button>
+
+            <button id="btn-open-history-modal" class="btn-op-menu-item">
+              <div class="menu-icon">🏆</div>
+              <div class="menu-info">
+                <strong>Daftar Riwayat Pemenang</strong>
+                <small id="history-summary-text">0 Pemenang Tercatat &bull; Export Excel</small>
+              </div>
+            </button>
+
+            <button id="btn-open-calibrate-modal" class="btn-op-menu-item">
+              <div class="menu-icon">📐</div>
+              <div class="menu-info">
+                <strong>Kalibrasi Posisi Box Nomor</strong>
+                <small>Geser letak nomor secara real-time di panggung</small>
+              </div>
+            </button>
+
+            <button id="btn-op-reset-all" class="btn-op-menu-item text-danger">
+              <div class="menu-icon">⚠️</div>
+              <div class="menu-info">
+                <strong>Reset Seluruh Undian</strong>
+                <small>Kembalikan 1000 nomor & bersihkan riwayat</small>
+              </div>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- SIDE CARD 2: RECENT WINNERS LIST -->
+        <div class="op-card op-recent-winners-card">
+          <div class="card-header-flex">
+            <h2 class="card-title">PEMENANG TERBARU</h2>
+            <button id="btn-quick-export" class="btn-link-action">Unduh Excel</button>
+          </div>
+
+          <div class="recent-winners-list" id="recent-winners-list">
+            <!-- Dynamically populated -->
+            <div class="empty-recent-state" id="empty-recent-state">
+              Belum ada pemenang yang diundi.
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDE CARD 3: SHORTCUT CHEATSHEET -->
+        <div class="op-card op-cheatsheet-card">
+          <h2 class="card-title">PANDUAN SHORTCUT KEYBOARD</h2>
+          <ul class="shortcut-list">
+            <li><kbd>SPASI</kbd> <span>Putar Undian (Spin)</span></li>
+            <li><kbd>H</kbd> <span>Hapus Nomor dari daftar undian</span></li>
+            <li><kbd>K</kbd> <span>Keep Nomor tetap di daftar</span></li>
+            <li><kbd>&larr;</kbd> <kbd>&rarr;</kbd> <span>Ganti Doorprize sebelumnya / berikutnya</span></li>
+            <li><kbd>M</kbd> <span>Mute / Unmute Suara</span></li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </main>
+
+  </div>
+
+  <!-- MODAL: KEPUTUSAN PEMENANG (BUTTON HAPUS & KEEP) -->
+  <div id="modal-op-winner" class="modal-backdrop">
+    <div class="modal-card modal-winner-card">
+      
+      <!-- BUTTON CLOSE (X) -->
+      <button class="modal-close modal-close-corner" data-close="modal-op-winner" title="Tutup Modal (Esc)">&times;</button>
+
+      <div class="winner-decor-banner">
+        🎉 HASIL UNDIAN TERPILIH! 🎉
+      </div>
+
+      <div class="winner-prize-tag" id="op-winner-prize-tag">
+        SEPEDA MOTOR LISTRIK
+      </div>
+
+      <div class="winner-number-box">
+        <div class="winner-number-glow"></div>
+        <h2 id="op-winner-number-display" class="winner-number-display">0482</h2>
+      </div>
+
+      <p class="winner-sub-info">
+        Pilih tindakan operator untuk nomor pemenang ini:
+      </p>
+
+      <!-- BUTTON HAPUS & KEEP -->
+      <div class="winner-action-buttons">
+        
+        <!-- BUTTON HAPUS -->
+        <button id="btn-op-winner-delete" class="btn-action-delete" title="Hapus nomor dari daftar sisa undian (Tekan [H])">
+          <div class="btn-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+          </div>
+          <div class="btn-text-group">
+            <span class="btn-main-title">HAPUS NOMOR</span>
+            <span class="btn-sub-title">Keluarkan dari sisa undian [H]</span>
+          </div>
+        </button>
+
+        <!-- BUTTON KEEP -->
+        <button id="btn-op-winner-keep" class="btn-action-keep" title="Biarkan nomor tetap ada di dalam undian (Tekan [K])">
+          <div class="btn-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <div class="btn-text-group">
+            <span class="btn-main-title">KEEP NOMOR</span>
+            <span class="btn-sub-title">Tetap simpan di daftar [K]</span>
+          </div>
+        </button>
+
+      </div>
+
+      <!-- FOOTER CLOSE BUTTON -->
+      <div class="winner-modal-footer">
+        <button class="btn-modal-dismiss" data-close="modal-op-winner">Tutup Jendela (Batal / Nanti)</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: KELOLA DATA PESERTA (1-1000 & EXCEL) -->
+  <div id="modal-op-data" class="modal-backdrop">
+    <div class="modal-card modal-medium">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3>Kelola Nomor Peserta Undian</h3>
+          <p>Sistem default: Nomor 1 s/d 1000 (Sesuai PRD Smartfren Fun Run)</p>
+        </div>
+        <button class="modal-close" data-close="modal-op-data">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        
+        <div class="stats-overview-grid">
+          <div class="stat-card">
+            <span class="stat-num" id="op-stat-total">1000</span>
+            <span class="stat-label">Total Nomor Awal</span>
+          </div>
+          <div class="stat-card highlight">
+            <span class="stat-num" id="op-stat-remaining">1000</span>
+            <span class="stat-label">Sisa Nomor di Undian</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" id="op-stat-removed">0</span>
+            <span class="stat-label">Nomor Terhapus / Menang</span>
+          </div>
+        </div>
+
+        <div class="data-mode-section">
+          <h4>Pilihan Format Tampilan Nomor:</h4>
+          
+          <div class="format-options">
+            <label class="radio-label">
+              <input type="radio" name="op-format-type" value="4digits" checked>
+              <span>Format 4 Digit (0001 - 1000)</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="op-format-type" value="standard">
+              <span>Format Angka Biasa (1 - 1000)</span>
+            </label>
+          </div>
+
+          <div class="range-generator-row">
+            <button id="btn-op-generate-1000" class="btn-primary-action">
+              🔄 Reset Ulang Nomor 1 s/d 1000
+            </button>
+          </div>
+
+          <div class="divider-text"><span>ATAU IMPORT DATA DARI EXCEL</span></div>
+
+          <div class="excel-upload-zone" id="op-excel-drop-zone">
+            <input type="file" id="op-excel-input" accept=".xlsx, .xls, .csv" hidden>
+            <p>Tarik & jatuhkan file Excel (.xlsx / .csv) berisi nomor peserta atau klik tombol di bawah:</p>
+            <button id="btn-op-browse-excel" class="btn-secondary-action">Pilih File Excel dari Laptop</button>
+            <span id="op-excel-file-name" class="file-name-tag"></span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary-action" data-close="modal-op-data">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DAFTAR RIWAYAT PEMENANG & EXPORT -->
+  <div id="modal-op-history" class="modal-backdrop">
+    <div class="modal-card modal-large">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3>Daftar Riwayat Pemenang Doorprize</h3>
+          <p>Rekap nomor pemenang Smartfren Fun Run Palembang</p>
+        </div>
+        <button class="modal-close" data-close="modal-op-history">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="history-actions-bar">
+          <button id="btn-op-export-excel" class="btn-primary-action">
+            📥 Download Rekap Excel (.xlsx)
+          </button>
+          <button id="btn-op-clear-history" class="btn-danger-outline">
+            🗑️ Kosongkan Riwayat
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th width="8%">No</th>
+                <th width="20%">Nomor Undian</th>
+                <th width="35%">Hadiah Doorprize</th>
+                <th width="20%">Waktu</th>
+                <th width="17%">Status Pool</th>
+              </tr>
+            </thead>
+            <tbody id="op-history-table-body">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+          <div id="op-history-empty" class="history-empty-message">
+            Belum ada nomor yang diundi.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary-action" data-close="modal-op-history">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KALIBRASI POSISI BOX NOMOR -->
+  <div id="modal-op-calibrate" class="modal-backdrop">
+    <div class="modal-card modal-medium">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3>Kalibrasi Posisi Box Nomor di Videotron</h3>
+          <p>Geser letak nomor secara real-time di layar videotron LED panggung</p>
+        </div>
+        <button class="modal-close" data-close="modal-op-calibrate">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="sliders-calib-grid">
+          
+          <div class="form-range-group">
+            <div class="range-labels">
+              <label for="op-calib-left">Posisi Horizontal (X):</label>
+              <span id="op-val-calib-left">53.1%</span>
+            </div>
+            <input type="range" id="op-calib-left" min="0" max="80" step="0.1" value="53.1">
+          </div>
+
+          <div class="form-range-group">
+            <div class="range-labels">
+              <label for="op-calib-top">Posisi Vertikal (Y):</label>
+              <span id="op-val-calib-top">43.7%</span>
+            </div>
+            <input type="range" id="op-calib-top" min="0" max="80" step="0.1" value="43.7">
+          </div>
+
+          <div class="form-range-group">
+            <div class="range-labels">
+              <label for="op-calib-width">Lebar Box (Width):</label>
+              <span id="op-val-calib-width">35.4%</span>
+            </div>
+            <input type="range" id="op-calib-width" min="15" max="60" step="0.1" value="35.4">
+          </div>
+
+          <div class="form-range-group">
+            <div class="range-labels">
+              <label for="op-calib-height">Tinggi Box (Height):</label>
+              <span id="op-val-calib-height">16.1%</span>
+            </div>
+            <input type="range" id="op-calib-height" min="8" max="30" step="0.1" value="16.1">
+          </div>
+
+          <div class="form-range-group">
+            <div class="range-labels">
+              <label for="op-calib-radius">Kelengkungan Sudut (Radius):</label>
+              <span id="op-val-calib-radius">36px</span>
+            </div>
+            <input type="range" id="op-calib-radius" min="0" max="70" step="1" value="36">
+          </div>
+
+          <div class="form-range-group">
+            <div class="range-labels">
+              <label for="op-calib-font-size">Ukuran Angka (Font Size):</label>
+              <span id="op-val-calib-font-size">110px</span>
+            </div>
+            <input type="range" id="op-calib-font-size" min="60" max="180" step="2" value="110">
+          </div>
+
+        </div>
+
+        <div class="calib-actions-row">
+          <button id="btn-op-reset-calibration" class="btn-subtle">Kembalikan ke Nilai Default</button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary-action" data-close="modal-op-calibrate">Simpan & Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operator Logic -->
+  <script src="operator.js"></script>
+</body>
+</html>
