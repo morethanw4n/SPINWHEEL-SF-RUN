@@ -17,11 +17,19 @@
   // --- STAGE DISPLAY STATE ---
   const STATE = {
     backgrounds: [
-      { id: 'bg-1', name: 'Sepeda Motor Listrik', url: 'assets/1. Sepeda Motor Listrik.svg' },
-      { id: 'bg-2', name: 'Smart TV 43 Inch', url: 'assets/2. Smart TV 43 Inch.svg' },
-      { id: 'bg-3', name: 'Rice Cooker Digital', url: 'assets/3. Rice Cooker Digital.svg' },
-      { id: 'bg-4', name: 'Kulkas 2 Pintu', url: 'assets/4. Kulkas 2 Pintu.svg' },
-      { id: 'bg-5', name: 'Sepeda Lipat Sport', url: 'assets/5. Sepeda Lipat.svg' }
+      { id: 'bg-1', name: 'AIR FRYER', url: 'assets/AIR FRYER.png' },
+      { id: 'bg-2', name: 'BLENDER', url: 'assets/BLENDER.png' },
+      { id: 'bg-3', name: 'DISPENSER', url: 'assets/DISPENSER.png' },
+      { id: 'bg-4', name: 'KACAMATA DOODR', url: 'assets/KACAMATA GOODR.png' },
+      { id: 'bg-5', name: 'KIPAS ANGIN', url: 'assets/KIPAS ANGIN.png' },
+      { id: 'bg-6', name: 'KOMPOR', url: 'assets/KOMPOR.png' },
+      { id: 'bg-7', name: 'KULKAS', url: 'assets/KULKAS.png' },
+      { id: 'bg-8', name: 'MESIN CUCI', url: 'assets/MESIN CUCI.png' },
+      { id: 'bg-9', name: 'MOTOR LISTRIK', url: 'assets/MOTOR LISTRIK.png' },
+      { id: 'bg-10', name: 'RICE COOKER', url: 'assets/RICE COOKER.png' },
+      { id: 'bg-11', name: 'SMART TV 32', url: 'assets/SMART TV 32.png' },
+      { id: 'bg-12', name: 'TUMBLER', url: 'assets/TUMBLER.png' },
+      { id: 'bg-13', name: 'VOUCHER BELANJA', url: 'assets/VOUCHER BELANJA.png' }
     ],
     activeBgIndex: 0,
     format4Digits: true,
@@ -157,15 +165,21 @@
     });
   }
 
-  // --- BACKGROUND SWITCH WITH CROSSFADE OVERLAY ---
+  // --- BACKGROUND SWITCH: NEW LAYER FADES IN ON TOP, OLD LAYER STAYS VISIBLE ---
+  // Durasi harus sinkron dengan CSS animation bgFadeIn (0.7s)
+  const BG_FADE_DURATION = 700;
+
   function applyBackground(index, animate = true) {
     const bg = STATE.backgrounds[index];
     if (!bg) return;
 
     if (!animate) {
+      // Set langsung tanpa animasi
       DOM.bgLayerA.style.backgroundImage = `url("${bg.url}")`;
+      DOM.bgLayerA.classList.remove('fading-in');
       DOM.bgLayerA.classList.add('active');
-      DOM.bgLayerB.classList.remove('active');
+      DOM.bgLayerB.style.backgroundImage = '';
+      DOM.bgLayerB.classList.remove('active', 'fading-in');
       STATE.activeLayer = 'a';
       return;
     }
@@ -173,15 +187,26 @@
     const nextLayer = STATE.activeLayer === 'a' ? DOM.bgLayerB : DOM.bgLayerA;
     const currentLayer = STATE.activeLayer === 'a' ? DOM.bgLayerA : DOM.bgLayerB;
 
-    nextLayer.style.backgroundImage = `url("${bg.url}")`;
-    nextLayer.classList.add('active');
-    currentLayer.classList.remove('active');
+    // Pastikan tidak ada animasi yang sedang berjalan di nextLayer
+    nextLayer.classList.remove('active', 'fading-in');
 
-    // Subtle Flash on switch
-    DOM.bgFadeOverlay.classList.add('flash');
-    setTimeout(() => {
-      DOM.bgFadeOverlay.classList.remove('flash');
-    }, 350);
+    // Set gambar bg baru
+    nextLayer.style.backgroundImage = `url("${bg.url}")`;
+
+    // Mulai fade-in: bg baru muncul di ATAS bg lama (bg lama tetap active/opacity:1)
+    // requestAnimationFrame untuk memastikan backgroundImage sudah dirender sebelum animasi
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        nextLayer.classList.add('fading-in');
+
+        // Setelah animasi selesai: bg lama disembunyikan, bg baru jadi active
+        setTimeout(() => {
+          nextLayer.classList.remove('fading-in');
+          nextLayer.classList.add('active');
+          currentLayer.classList.remove('active');
+        }, BG_FADE_DURATION);
+      });
+    });
 
     STATE.activeLayer = STATE.activeLayer === 'a' ? 'b' : 'a';
   }
@@ -406,12 +431,11 @@
       }
     });
 
-    // Standalone fallback: Spacebar to spin if operated directly
     document.addEventListener('keydown', (e) => {
       if (e.code === 'Space') {
         e.preventDefault();
         if (!STATE.isSpinning) {
-          const randNum = Math.floor(1 + Math.random() * 1000);
+          const randNum = Math.floor(7001 + Math.random() * 1000);
           startStageSpin(randNum, STATE.backgrounds[STATE.activeBgIndex]?.name);
         }
       }

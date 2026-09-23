@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OPERATOR DASHBOARD - Lucky Draw Smartfren Fun Run Palembang</title>
-  <meta name="description" content="Panel kendali operator laptop untuk lucky draw doorprize Smartfren Fun Run Palembang.">
+  <meta name="description"
+    content="Panel kendali operator laptop untuk lucky draw doorprize Smartfren Fun Run Palembang.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=Teko:wght@600;700&display=swap"
+    rel="stylesheet">
 
   <!-- SheetJS for Excel (.xlsx, .xls, .csv) -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -17,14 +21,15 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="operator-body">
 
   <!-- Operator Dashboard Container -->
   <div class="operator-app-container">
-    
+
     <!-- Top Header Bar -->
     <header class="operator-header">
-      
+
       <!-- Brand & Event Identity -->
       <div class="op-brand">
         <div class="op-brand-tag">
@@ -39,7 +44,7 @@
 
       <!-- Sync Status & Participant Counter -->
       <div class="op-header-stats">
-        
+
         <!-- Display Sync Indicator -->
         <div class="op-sync-badge" id="display-sync-badge">
           <span class="sync-dot waiting" id="sync-dot"></span>
@@ -61,9 +66,10 @@
 
       <!-- Header Actions (Launch Display, Sound, Data, Fullscreen) -->
       <div class="op-header-actions">
-        
+
         <!-- BUTTON BUKA LAYAR VIDEOTRON (DISPLAY VIEW) -->
-        <button id="btn-open-display" class="btn-op-primary" title="Buka jendela layar panggung untuk dipindahkan ke Videotron / Monitor Eksternal">
+        <button id="btn-open-display" class="btn-op-primary"
+          title="Buka jendela layar panggung untuk dipindahkan ke Videotron / Monitor Eksternal">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
             <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
             <line x1="8" y1="21" x2="16" y2="21"></line>
@@ -74,11 +80,13 @@
 
         <!-- SOUND TOGGLE -->
         <button id="btn-toggle-sound" class="btn-op-icon" title="Toggle Suara (Mute / Unmute)">
-          <svg id="icon-sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg id="icon-sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
           </svg>
-          <svg id="icon-sound-off" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg id="icon-sound-off" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <line x1="23" y1="9" x2="17" y2="15"></line>
             <line x1="17" y1="9" x2="23" y2="15"></line>
@@ -91,21 +99,23 @@
 
     <!-- Main Workspace Layout -->
     <main class="operator-workspace">
-      
+
       <!-- Left Column: Primary Draw Control, Tabs & Spin Button -->
       <section class="op-main-controls">
-        
+
         <!-- SECTION 1: BUTTON NAMA-NAMA DOORPRIZE & BUTTON UPLOAD BG -->
         <div class="op-card op-doorprize-card">
           <div class="card-header-flex">
             <div>
               <h2 class="card-title">PILIH MATERI DOORPRIZE</h2>
-              <p class="card-desc">Klik tombol hadiah di bawah untuk mengganti background di layar panggung secara instan (transisi fade overlay):</p>
+              <p class="card-desc">Klik tombol hadiah di bawah untuk mengganti background di layar panggung secara
+                instan (transisi fade overlay):</p>
             </div>
-            
+
             <!-- BUTTON UPLOAD BG -->
             <div class="op-doorprize-header-actions">
-              <label for="bg-upload-input" class="btn-op-upload" title="Unggah seluruh background doorprize sekaligus (.png, .jpg, .svg)">
+              <label for="bg-upload-input" class="btn-op-upload"
+                title="Unggah seluruh background doorprize sekaligus (.png, .jpg, .svg)">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                   <polyline points="17 8 12 3 7 8"></polyline>
@@ -116,7 +126,8 @@
               <input type="file" id="bg-upload-input" multiple accept="image/*" hidden>
 
               <!-- BUTTON HAPUS SEMUA DOORPRIZE (Custom) -->
-              <button id="btn-clear-all-doorprize" class="btn-op-clear-doorprize" title="Hapus semua background custom yang diupload (Background default tetap ada)">
+              <button id="btn-clear-all-doorprize" class="btn-op-clear-doorprize"
+                title="Hapus semua background custom yang diupload (Background default tetap ada)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                   <polyline points="3 6 5 6 21 6"></polyline>
                   <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -151,7 +162,7 @@
           <div class="op-mirror-container">
             <div class="op-mirror-screen" id="op-mirror-screen">
               <div id="op-mirror-bg" class="op-mirror-bg"></div>
-              
+
               <!-- Miniature Number Box Mirror -->
               <div id="op-mirror-box" class="op-mirror-box">
                 <span id="op-mirror-number">0000</span>
@@ -169,19 +180,21 @@
         <!-- SECTION 3: BUTTON SPIN (General, clean, large, prominent) -->
         <div class="op-card op-spin-control-card">
           <div class="spin-control-layout">
-            
+
             <div class="spin-info-col">
               <span class="spin-info-label">AKSI PENGUNDIAN:</span>
               <h3 class="spin-target-prize" id="spin-target-prize">Sepeda Motor Listrik</h3>
-              <p class="spin-instruction">Tekan tombol di sebelah kanan atau tekan <strong>[SPASI]</strong> di keyboard untuk memutar undian nomor pada videotron.</p>
+              <p class="spin-instruction">Tekan tombol di sebelah kanan atau tekan <strong>[SPASI]</strong> di keyboard
+                untuk memutar undian nomor pada videotron.</p>
             </div>
 
             <!-- THE BIG BUTTON SPIN -->
             <button id="btn-op-spin" class="btn-op-spin" aria-label="Putar Undian">
               <div class="btn-spin-glow"></div>
               <div class="btn-spin-inner">
-                <svg class="spin-icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                <svg class="spin-icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
                 </svg>
                 <div class="spin-text-group">
                   <span class="spin-title" id="btn-op-spin-label">PUTAR UNDIAN</span>
@@ -197,12 +210,12 @@
 
       <!-- Right Column: Tools, Data Management, Calibration & Winner History -->
       <aside class="op-side-panel">
-        
+
         <!-- SIDE CARD 1: TOOLS & MANAGEMENT -->
         <div class="op-card">
           <h2 class="card-title">MANAJEMEN DATA & PENGATURAN</h2>
           <div class="op-action-menu-list">
-            
+
             <button id="btn-open-data-modal" class="btn-op-menu-item">
               <div class="menu-icon">📋</div>
               <div class="menu-info">
@@ -274,12 +287,13 @@
   <!-- MODAL: KEPUTUSAN PEMENANG (BUTTON HAPUS & KEEP) -->
   <div id="modal-op-winner" class="modal-backdrop">
     <div class="modal-card modal-winner-card">
-      
+
       <!-- BUTTON CLOSE (X) -->
-      <button class="modal-close modal-close-corner" data-close="modal-op-winner" title="Tutup Modal (Esc)">&times;</button>
+      <button class="modal-close modal-close-corner" data-close="modal-op-winner"
+        title="Tutup Modal (Esc)">&times;</button>
 
       <div class="winner-decor-banner">
-        🎉 HASIL UNDIAN TERPILIH! 🎉
+        HASIL UNDIAN TERPILIH!
       </div>
 
       <div class="winner-prize-tag" id="op-winner-prize-tag">
@@ -297,9 +311,10 @@
 
       <!-- BUTTON HAPUS & KEEP -->
       <div class="winner-action-buttons">
-        
+
         <!-- BUTTON HAPUS -->
-        <button id="btn-op-winner-delete" class="btn-action-delete" title="Hapus nomor dari daftar sisa undian (Tekan [H])">
+        <button id="btn-op-winner-delete" class="btn-action-delete"
+          title="Hapus nomor dari daftar sisa undian (Tekan [H])">
           <div class="btn-icon-wrapper">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="3 6 5 6 21 6"></polyline>
@@ -315,7 +330,8 @@
         </button>
 
         <!-- BUTTON KEEP -->
-        <button id="btn-op-winner-keep" class="btn-action-keep" title="Biarkan nomor tetap ada di dalam undian (Tekan [K])">
+        <button id="btn-op-winner-keep" class="btn-action-keep"
+          title="Biarkan nomor tetap ada di dalam undian (Tekan [K])">
           <div class="btn-icon-wrapper">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -350,7 +366,7 @@
       </div>
 
       <div class="modal-body">
-        
+
         <div class="stats-overview-grid">
           <div class="stat-card">
             <span class="stat-num" id="op-stat-total">1000</span>
@@ -368,7 +384,7 @@
 
         <div class="data-mode-section">
           <h4>Pilihan Format Tampilan Nomor:</h4>
-          
+
           <div class="format-options">
             <label class="radio-label">
               <input type="radio" name="op-format-type" value="4digits" checked>
@@ -466,7 +482,7 @@
 
       <div class="modal-body">
         <div class="sliders-calib-grid">
-          
+
           <div class="form-range-group">
             <div class="range-labels">
               <label for="op-calib-left">Posisi Horizontal (X):</label>
@@ -531,4 +547,5 @@
   <!-- Operator Logic -->
   <script src="operator.js"></script>
 </body>
+
 </html>

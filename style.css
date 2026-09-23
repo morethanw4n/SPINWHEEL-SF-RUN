@@ -124,15 +124,26 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0;
-  transition: opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1), transform 0.65s ease-out;
-  transform: scale(1.02);
+  transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
   pointer-events: none;
   z-index: 99;
 }
 
+/* Layer yang sedang aktif (dan layer lama yg belum di-hide) tampil penuh */
 .stage-bg-layer.active {
   opacity: 1;
-  transform: scale(1);
+}
+
+/* Layer baru yg sedang fade-in ditaruh di atas layer lama */
+.stage-bg-layer.fading-in {
+  opacity: 0;
+  z-index: 100;
+  animation: bgFadeIn 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes bgFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* Flash Transition Effect */
@@ -221,7 +232,7 @@ body {
   font-family: var(--font-mono);
   font-size: var(--calib-box-font-size);
   font-weight: 800;
-  color: #0F172A;
+  color: #f90e78;
   line-height: 1;
 }
 
@@ -231,7 +242,7 @@ body {
 }
 
 .digit-column.spinning .digit-strip {
-  filter: blur(1.5px);
+  /* filter: blur(1.5px); */
   color: var(--sf-magenta);
 }
 
@@ -257,7 +268,7 @@ body {
 }
 
 .lucky-number-box.winner-highlight .digit-strip {
-  color: #000000;
+  color: #f90e78;
   font-weight: 900;
 }
 
@@ -926,7 +937,7 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 65%);
+  /* background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 65%); */
   opacity: 0;
   transition: opacity 0.3s ease;
 }

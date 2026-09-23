@@ -16,17 +16,25 @@
 
   // --- APPLICATION STATE ---
   const STATE = {
-    totalParticipants: 1000,
+    totalParticipants: 1000,  // jumlah peserta (8000 - 7001 + 1)
     format4Digits: true,
     availableNumbers: [],
     winnerHistory: [],
 
     backgrounds: [
-      { id: 'bg-1', name: 'Sepeda Motor Listrik', url: 'assets/1. Sepeda Motor Listrik.svg', isDefault: true },
-      { id: 'bg-2', name: 'Smart TV 43 Inch', url: 'assets/2. Smart TV 43 Inch.svg', isDefault: true },
-      { id: 'bg-3', name: 'Rice Cooker Digital', url: 'assets/3. Rice Cooker Digital.svg', isDefault: true },
-      { id: 'bg-4', name: 'Kulkas 2 Pintu', url: 'assets/4. Kulkas 2 Pintu.svg', isDefault: true },
-      { id: 'bg-5', name: 'Sepeda Lipat Sport', url: 'assets/5. Sepeda Lipat.svg', isDefault: true }
+      { id: 'bg-1', name: 'AIR FRYER', url: 'assets/AIR FRYER.png' },
+      { id: 'bg-2', name: 'BLENDER', url: 'assets/BLENDER.png' },
+      { id: 'bg-3', name: 'DISPENSER', url: 'assets/DISPENSER.png' },
+      { id: 'bg-4', name: 'KACAMATA DOODR', url: 'assets/KACAMATA GOODR.png' },
+      { id: 'bg-5', name: 'KIPAS ANGIN', url: 'assets/KIPAS ANGIN.png' },
+      { id: 'bg-6', name: 'KOMPOR', url: 'assets/KOMPOR.png' },
+      { id: 'bg-7', name: 'KULKAS', url: 'assets/KULKAS.png' },
+      { id: 'bg-8', name: 'MESIN CUCI', url: 'assets/MESIN CUCI.png' },
+      { id: 'bg-9', name: 'MOTOR LISTRIK', url: 'assets/MOTOR LISTRIK.png' },
+      { id: 'bg-10', name: 'RICE COOKER', url: 'assets/RICE COOKER.png' },
+      { id: 'bg-11', name: 'SMART TV 32', url: 'assets/SMART TV 32.png' },
+      { id: 'bg-12', name: 'TUMBLER', url: 'assets/TUMBLER.png' },
+      { id: 'bg-13', name: 'VOUCHER BELANJA', url: 'assets/VOUCHER BELANJA.png' }
     ],
     activeBgIndex: 0,
     currentPendingWinner: null,
@@ -242,9 +250,10 @@
 
   function generateNumbers1To1000() {
     STATE.availableNumbers = [];
-    for (let i = 1; i <= STATE.totalParticipants; i++) {
+    for (let i = 7001; i <= 8000; i++) {
       STATE.availableNumbers.push(i);
     }
+    STATE.totalParticipants = STATE.availableNumbers.length;
     saveState();
   }
 
@@ -355,11 +364,19 @@
       if (btnRestore) {
         btnRestore.addEventListener('click', () => {
           STATE.backgrounds = [
-            { id: 'bg-1', name: 'Sepeda Motor Listrik', url: 'assets/1. Sepeda Motor Listrik.svg', isDefault: true },
-            { id: 'bg-2', name: 'Smart TV 43 Inch', url: 'assets/2. Smart TV 43 Inch.svg', isDefault: true },
-            { id: 'bg-3', name: 'Rice Cooker Digital', url: 'assets/3. Rice Cooker Digital.svg', isDefault: true },
-            { id: 'bg-4', name: 'Kulkas 2 Pintu', url: 'assets/4. Kulkas 2 Pintu.svg', isDefault: true },
-            { id: 'bg-5', name: 'Sepeda Lipat Sport', url: 'assets/5. Sepeda Lipat.svg', isDefault: true }
+            { id: 'bg-1', name: 'AIR FRYER', url: 'assets/AIR FRYER.png' },
+            { id: 'bg-2', name: 'BLENDER', url: 'assets/BLENDER.png' },
+            { id: 'bg-3', name: 'DISPENSER', url: 'assets/DISPENSER.png' },
+            { id: 'bg-4', name: 'KACAMATA DOODR', url: 'assets/KACAMATA GOODR.png' },
+            { id: 'bg-5', name: 'KIPAS ANGIN', url: 'assets/KIPAS ANGIN.png' },
+            { id: 'bg-6', name: 'KOMPOR', url: 'assets/KOMPOR.png' },
+            { id: 'bg-7', name: 'KULKAS', url: 'assets/KULKAS.png' },
+            { id: 'bg-8', name: 'MESIN CUCI', url: 'assets/MESIN CUCI.png' },
+            { id: 'bg-9', name: 'MOTOR LISTRIK', url: 'assets/MOTOR LISTRIK.png' },
+            { id: 'bg-10', name: 'RICE COOKER', url: 'assets/RICE COOKER.png' },
+            { id: 'bg-11', name: 'SMART TV 32', url: 'assets/SMART TV 32.png' },
+            { id: 'bg-12', name: 'TUMBLER', url: 'assets/TUMBLER.png' },
+            { id: 'bg-13', name: 'VOUCHER BELANJA', url: 'assets/VOUCHER BELANJA.png' }
           ];
           STATE.activeBgIndex = 0;
           renderDoorprizeTabs();
@@ -470,7 +487,7 @@
     if (STATE.isSpinning) return;
 
     if (STATE.availableNumbers.length === 0) {
-      alert('Semua 1000 nomor peserta sudah diundi! Silakan reset ulang di Kelola Data.');
+      alert('Semua 1000 nomor peserta sudah diundi! Silakan reset ulang di Kelola Data. (7001-8000)');
       return;
     }
 
@@ -770,12 +787,12 @@
     DOM.btnOpenCalibrateModal.addEventListener('click', () => openModal(DOM.modalOpCalibrate));
 
     DOM.btnOpResetAll.addEventListener('click', () => {
-      if (confirm('PERINGATAN: Apakah Anda yakin ingin me-reset seluruh undian ke nomor 1-1000 dan mengosongkan riwayat?')) {
+      if (confirm('PERINGATAN: Apakah Anda yakin ingin me-reset seluruh undian ke nomor 7001-8000 dan mengosongkan riwayat?')) {
         STATE.winnerHistory = [];
         generateNumbers1To1000();
         renderRecentWinners();
         renderHistoryTable();
-        alert('Undian berhasil direset ke 1000 nomor peserta!');
+        alert('Undian berhasil direset ke 1000 nomor peserta! (7001-8000)');
       }
     });
 
@@ -810,9 +827,9 @@
     });
 
     DOM.btnOpGenerate1000.addEventListener('click', () => {
-      if (confirm('Reset ulang daftar ke nomor 1 s/d 1000?')) {
+      if (confirm('Reset ulang daftar ke nomor 7001 s/d 8000?')) {
         generateNumbers1To1000();
-        alert('Nomor peserta berhasil direset ke 1-1000.');
+        alert('Nomor peserta berhasil direset ke 7001-8000.');
       }
     });
 
