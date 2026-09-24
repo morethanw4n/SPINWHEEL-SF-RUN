@@ -68,16 +68,17 @@
     }
 
     .launcher-brand-tag {
-      display: inline-flex;
+      display: flex;
       align-items: center;
+      justify-content: center;
       gap: 9px;
       margin-bottom: 22px;
       padding: 8px 15px;
-      border: 1px solid rgba(251, 14, 120, .35);
-      border-radius: 999px;
-      background: rgba(251, 14, 120, .08);
-      box-shadow: 0 0 30px rgba(251, 14, 120, .08);
       font-weight: 800
+    }
+
+    .launcher-brand-tag img {
+      width: 300px;
     }
 
     .brand-smartfren {
@@ -441,7 +442,7 @@
     <!-- Top Branding Header -->
     <header class="launcher-header">
       <div class="launcher-brand-tag">
-        <img src="" alt="">
+        <img src="assets/SF5G.png" alt="">
       </div>
 
       <h1 class="launcher-main-title">LUCKY DRAW PORTAL</h1>
@@ -456,7 +457,7 @@
       <!-- CARD 1: OPERATOR DASHBOARD -->
       <a href="operator.html" target="_blank" class="launcher-card operator-card">
         <div class="card-glow"></div>
-        <div class="card-badge op-badge">MONITOR LAPTOP OPERATOR</div>
+        <div class="card-badge op-badge">MONITOR</div>
 
         <div class="card-icon-box">
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -466,24 +467,23 @@
           </svg>
         </div>
 
-        <h2 class="card-heading">Panel Kontrol Operator</h2>
+        <h2 class="card-heading">Kontrol Panel</h2>
         <p class="card-description">
-          Pusat kendali di laptop operator. Dilengkapi upload background materi, tombol nama doorprize otomatis, live
+          Kontrol laptop operator. Dilengkapi upload background materi, tombol nama doorprize otomatis, live
           monitor panggung, tombol SPIN, popup konfirmasi HAPUS/KEEP, kelola nomor 1-1000, kalibrasi, dan rekap Excel.
         </p>
 
         <div class="card-action-bar">
           <span class="btn-launcher primary">
-            Buka Panel Operator &rarr;
+            Buka Panel Operator
           </span>
-          <span class="hotkey-pill">[ Tekan 1 ]</span>
         </div>
       </a>
 
       <!-- CARD 2: STAGE DISPLAY (6x3.5m LED) -->
       <a href="display.html" target="_blank" class="launcher-card display-card">
         <div class="card-glow"></div>
-        <div class="card-badge stage-badge">VIDEOTRON LED PANGGUNG 6x3.5m</div>
+        <div class="card-badge stage-badge">DISPLAY</div>
 
         <div class="card-icon-box">
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -491,7 +491,7 @@
           </svg>
         </div>
 
-        <h2 class="card-heading">Layar Lucky Draw (Panggung)</h2>
+        <h2 class="card-heading">DISPLAY LUCKY DRAW</h2>
         <p class="card-description">
           Tampilan bersih 100% untuk audiens panggung. Menampilkan materi hadiah berasio 12:7 (6x3.5m), animasi putaran
           angka slot reel dramatis, efek suara realistis, ledakan konfeti panggung, dan banner pengumuman nomor.
@@ -499,16 +499,16 @@
 
         <div class="card-action-bar">
           <span class="btn-launcher secondary">
-            Buka Layar Panggung &rarr;
+            Buka Layar Panggung
           </span>
-          <span class="hotkey-pill">[ Tekan 2 ]</span>
+
         </div>
       </a>
 
     </div>
 
     <!-- Quick Dual Launch Row -->
-    <div class="launcher-footer-actions">
+    <!-- <div class="launcher-footer-actions">
       <button id="btn-launch-both" class="btn-dual-launch">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
           <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
@@ -518,11 +518,8 @@
         <span>Buka Keduanya Sekaligus (Operator di sini & Layar Panggung di Tab Baru)</span>
       </button>
 
-      <p class="launcher-shortcut-hint">
-        💡 Tip: Hubungkan laptop ke videotron dengan mode <strong>Extend Displays</strong>, lalu buka
-        <code>operator.html</code> di laptop dan <code>display.html</code> di videotron.
-      </p>
-    </div>
+
+    </div> -->
 
   </div>
 

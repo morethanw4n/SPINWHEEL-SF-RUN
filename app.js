@@ -124,7 +124,7 @@
   function initDisplay() {
     loadCachedSettings();
     applyBackground(STATE.activeBgIndex, false);
-    updateDisplayNumbers(formatNumber(1));
+    updateDisplayNumbers(formatNumber(7001));
     setupBroadcastChannel();
     setupEventListeners();
 
@@ -144,7 +144,7 @@
     }
 
     // Default standalone pool
-    for (let i = 1; i <= 1000; i++) STATE.availableNumbers.push(i);
+    for (let i = 7001; i <= 8000; i++) STATE.availableNumbers.push(i);
   }
 
   function formatNumber(num) {
@@ -257,7 +257,7 @@
 
       if (progress < 1) {
         // Fast random 4-digit number during roll
-        const randomNum = Math.floor(1 + Math.random() * 1000);
+        const randomNum = Math.floor(7001 + Math.random() * 1000);
         updateDisplayNumbers(formatNumber(randomNum));
         requestAnimationFrame(animateReel);
       } else {
