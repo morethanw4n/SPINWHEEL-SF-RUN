@@ -40,8 +40,6 @@
 
     // Standalone fallback pool (if opened without operator.html)
     availableNumbers: [],
-    rangeMin: 7001,
-    rangeMax: 8000,
     currentWinnerNumber: null
   };
 
@@ -138,11 +136,6 @@
     const savedFormat = localStorage.getItem('sf_format_4digits');
     if (savedFormat !== null) STATE.format4Digits = savedFormat === 'true';
 
-    const savedMin = localStorage.getItem('sf_draw_range_min');
-    const savedMax = localStorage.getItem('sf_draw_range_max');
-    if (savedMin !== null && !isNaN(parseInt(savedMin, 10))) STATE.rangeMin = parseInt(savedMin, 10);
-    if (savedMax !== null && !isNaN(parseInt(savedMax, 10))) STATE.rangeMax = parseInt(savedMax, 10);
-
     const savedCalib = localStorage.getItem('sf_box_calibration');
     if (savedCalib) {
       try {
@@ -151,7 +144,7 @@
     }
 
     // Default standalone pool
-    for (let i = STATE.rangeMin; i <= STATE.rangeMax; i++) STATE.availableNumbers.push(i);
+    for (let i = 7001; i <= 8000; i++) STATE.availableNumbers.push(i);
   }
 
   function formatNumber(num) {
@@ -264,7 +257,7 @@
 
       if (progress < 1) {
         // Fast random 4-digit number during roll
-        const randomNum = Math.floor(STATE.rangeMin + Math.random() * (STATE.rangeMax - STATE.rangeMin + 1));
+        const randomNum = Math.floor(7001 + Math.random() * 1000);
         updateDisplayNumbers(formatNumber(randomNum));
         requestAnimationFrame(animateReel);
       } else {
@@ -406,11 +399,6 @@
           if (typeof payload.soundEnabled === 'boolean') {
             STATE.soundEnabled = payload.soundEnabled;
           }
-          break;
-
-        case 'CMD_DRAW_SETTINGS':
-          if (Number.isFinite(payload.rangeMin)) STATE.rangeMin = payload.rangeMin;
-          if (Number.isFinite(payload.rangeMax)) STATE.rangeMax = payload.rangeMax;
           break;
       }
     };

@@ -17,10 +17,6 @@
   // --- APPLICATION STATE ---
   const STATE = {
     totalParticipants: 1000,  // jumlah peserta (8000 - 7001 + 1)
-    rangeMin: 7001,
-    rangeMax: 8000,
-    drawDuration: 4500,
-    drawTimerInterval: null,
     format4Digits: true,
     availableNumbers: [],
     winnerHistory: [],
@@ -82,11 +78,6 @@
     btnOpSpin: document.getElementById('btn-op-spin'),
     btnOpSpinLabel: document.getElementById('btn-op-spin-label'),
     spinTargetPrize: document.getElementById('spin-target-prize'),
-    drawMin: document.getElementById('op-draw-min'),
-    drawMax: document.getElementById('op-draw-max'),
-    drawDuration: document.getElementById('op-draw-duration'),
-    drawTimer: document.getElementById('op-draw-timer'),
-    btnApplyDrawSettings: document.getElementById('btn-apply-draw-settings'),
 
     // Action Menus
     btnOpenDataModal: document.getElementById('btn-open-data-modal'),
@@ -221,16 +212,6 @@
       STATE.format4Digits = savedFormat === 'true';
     }
 
-    const savedMin = localStorage.getItem('sf_draw_range_min');
-    const savedMax = localStorage.getItem('sf_draw_range_max');
-    const savedDuration = localStorage.getItem('sf_draw_duration');
-    if (savedMin !== null && !isNaN(parseInt(savedMin, 10))) STATE.rangeMin = parseInt(savedMin, 10);
-    if (savedMax !== null && !isNaN(parseInt(savedMax, 10))) STATE.rangeMax = parseInt(savedMax, 10);
-    if (savedDuration !== null && !isNaN(parseFloat(savedDuration))) STATE.drawDuration = Math.max(1000, parseFloat(savedDuration) * 1000);
-    if (DOM.drawMin) DOM.drawMin.value = STATE.rangeMin;
-    if (DOM.drawMax) DOM.drawMax.value = STATE.rangeMax;
-    if (DOM.drawDuration) DOM.drawDuration.value = (STATE.drawDuration / 1000).toString();
-
     if (savedPool) {
       try {
         STATE.availableNumbers = JSON.parse(savedPool);
@@ -267,32 +248,18 @@
     });
   }
 
-  function generateNumbersInRange(min, max, persist = true) {
-    min = parseInt(min, 10);
-    max = parseInt(max, 10);
-    if (!Number.isFinite(min) || !Number.isFinite(max) || min < 0 || max < min) {
-      alert('Range nomor tidak valid. Pastikan angka mulai <= angka akhir.');
-      return false;
-    }
-    STATE.rangeMin = min;
-    STATE.rangeMax = max;
-    STATE.availableNumbers = [];
-    for (let i = min; i <= max; i++) STATE.availableNumbers.push(i);
-    STATE.totalParticipants = STATE.availableNumbers.length;
-    if (persist) saveState();
-    return true;
-  }
-
   function generateNumbers1To1000() {
-    generateNumbersInRange(STATE.rangeMin, STATE.rangeMax);
+    STATE.availableNumbers = [];
+    for (let i = 7001; i <= 8000; i++) {
+      STATE.availableNumbers.push(i);
+    }
+    STATE.totalParticipants = STATE.availableNumbers.length;
+    saveState();
   }
 
   function saveState() {
     localStorage.setItem('sf_available_numbers', JSON.stringify(STATE.availableNumbers));
     localStorage.setItem('sf_format_4digits', STATE.format4Digits);
-    localStorage.setItem('sf_draw_range_min', STATE.rangeMin);
-    localStorage.setItem('sf_draw_range_max', STATE.rangeMax);
-    localStorage.setItem('sf_draw_duration', STATE.drawDuration / 1000);
     localStorage.setItem('sf_winner_history', JSON.stringify(STATE.winnerHistory));
     updateCounters();
     broadcastFullSync();
@@ -335,10 +302,7 @@
       totalCount: STATE.totalParticipants,
       format4Digits: STATE.format4Digits,
       calibration: STATE.calibration,
-      soundEnabled: STATE.soundEnabled,
-      rangeMin: STATE.rangeMin,
-      rangeMax: STATE.rangeMax,
-      drawDuration: STATE.drawDuration
+      soundEnabled: STATE.soundEnabled
     });
   }
 
@@ -518,64 +482,6 @@
     event.target.value = '';
   }
 
-  // --- DRAW SETTINGS / OPERATOR TIMER ---
-  function resetDrawTimer() {
-    if (STATE.drawTimerInterval) {
-      clearInterval(STATE.drawTimerInterval);
-      STATE.drawTimerInterval = null;
-    }
-    if (DOM.drawTimer) DOM.drawTimer.textContent = 'SIAP';
-  }
-
-  function startDrawTimer(durationMs) {
-    resetDrawTimer();
-    const startedAt = performance.now();
-    const tick = () => {
-      const remaining = Math.max(0, durationMs - (performance.now() - startedAt));
-      if (DOM.drawTimer) DOM.drawTimer.textContent = `${(remaining / 1000).toFixed(1)}s`;
-      if (remaining <= 0) {
-        resetDrawTimer();
-        if (DOM.drawTimer) DOM.drawTimer.textContent = 'SELESAI';
-      }
-    };
-    tick();
-    STATE.drawTimerInterval = setInterval(tick, 100);
-  }
-
-  function applyDrawSettings() {
-    if (STATE.isSpinning) {
-      alert('Tidak bisa mengubah pengaturan saat draw sedang berjalan.');
-      return;
-    }
-    const min = parseInt(DOM.drawMin?.value, 10);
-    const max = parseInt(DOM.drawMax?.value, 10);
-    const seconds = parseFloat(DOM.drawDuration?.value);
-    if (!Number.isInteger(min) || !Number.isInteger(max) || min < 0 || max < min) {
-      alert('Range nomor tidak valid.');
-      return;
-    }
-    if (!Number.isFinite(seconds) || seconds < 1 || seconds > 60) {
-      alert('Durasi draw harus antara 1 sampai 60 detik.');
-      return;
-    }
-    STATE.drawDuration = Math.round(seconds * 1000);
-    if (!generateNumbersInRange(min, max, false)) return;
-    localStorage.setItem('sf_draw_range_min', STATE.rangeMin);
-    localStorage.setItem('sf_draw_range_max', STATE.rangeMax);
-    localStorage.setItem('sf_draw_duration', STATE.drawDuration / 1000);
-    saveState();
-    renderRecentWinners();
-    renderHistoryTable();
-    updateLiveMirror();
-    sendBroadcastMessage('CMD_DRAW_SETTINGS', {
-      rangeMin: STATE.rangeMin,
-      rangeMax: STATE.rangeMax,
-      drawDuration: STATE.drawDuration
-    });
-    resetDrawTimer();
-    alert(`Pengaturan diterapkan: ${min} - ${max}, durasi ${seconds} detik.`);
-  }
-
   // --- BUTTON SPIN ENGINE ---
   function startOperatorSpin() {
     if (STATE.isSpinning) return;
@@ -604,23 +510,18 @@
     sendBroadcastMessage('CMD_START_SPIN', {
       winningNumber: chosenNum,
       doorprizeName: currentPrize,
-      duration: STATE.drawDuration,
-      rangeMin: STATE.rangeMin,
-      rangeMax: STATE.rangeMax
+      duration: 4500
     });
-
-    startDrawTimer(STATE.drawDuration);
 
     // In case display is not open, handle fallback local timer
     setTimeout(() => {
       if (STATE.isSpinning) {
         handleStageSpinFinished({ winningNumber: chosenNum, doorprize: currentPrize });
       }
-    }, STATE.drawDuration + 300);
+    }, 4800);
   }
 
   function handleStageSpinFinished(payload) {
-    resetDrawTimer();
     STATE.isSpinning = false;
     DOM.btnOpSpin.classList.remove('spinning');
     DOM.btnOpSpinLabel.textContent = 'PUTAR UNDIAN';
@@ -818,11 +719,6 @@
     // 1. BUTTON SPIN
     DOM.btnOpSpin.addEventListener('click', startOperatorSpin);
 
-    // 1b. DRAW SETTINGS
-    if (DOM.btnApplyDrawSettings) {
-      DOM.btnApplyDrawSettings.addEventListener('click', applyDrawSettings);
-    }
-
     // 2. Open Stage Display in New Window
     DOM.btnOpenDisplay.addEventListener('click', () => {
       const displayWin = window.open('display.html', 'SF_Stage_Display', 'width=1280,height=750,menubar=no,toolbar=no');
@@ -891,12 +787,12 @@
     DOM.btnOpenCalibrateModal.addEventListener('click', () => openModal(DOM.modalOpCalibrate));
 
     DOM.btnOpResetAll.addEventListener('click', () => {
-      if (confirm(`PERINGATAN: Reset seluruh undian ke nomor ${STATE.rangeMin}-${STATE.rangeMax} dan kosongkan riwayat?`)) {
+      if (confirm('PERINGATAN: Apakah Anda yakin ingin me-reset seluruh undian ke nomor 7001-8000 dan mengosongkan riwayat?')) {
         STATE.winnerHistory = [];
         generateNumbers1To1000();
         renderRecentWinners();
         renderHistoryTable();
-        alert(`Undian berhasil direset ke ${STATE.rangeMin}-${STATE.rangeMax}!`);
+        alert('Undian berhasil direset ke 1000 nomor peserta! (7001-8000)');
       }
     });
 
@@ -931,9 +827,9 @@
     });
 
     DOM.btnOpGenerate1000.addEventListener('click', () => {
-      if (confirm(`Reset ulang daftar ke nomor ${STATE.rangeMin} s/d ${STATE.rangeMax}?`)) {
+      if (confirm('Reset ulang daftar ke nomor 7001 s/d 8000?')) {
         generateNumbers1To1000();
-        alert(`Nomor peserta berhasil direset ke ${STATE.rangeMin}-${STATE.rangeMax}.`);
+        alert('Nomor peserta berhasil direset ke 7001-8000.');
       }
     });
 
